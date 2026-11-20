@@ -20,32 +20,53 @@
 
     .gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 columns */
-      gap: 16px;                             /* blue space between photos */
-      padding: 8px;                         /* blue space around the edge */
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      padding: 8px;
       max-width: 1400px;
       margin: 0 auto;
     }
 
     .gallery img {
       width: 100%;
-      aspect-ratio: 1 / 1;      /* makes every photo a perfect square */
+      aspect-ratio: 1 / 1;
       object-fit: cover;
       display: block;
-      background: #000066;      /* fallback while loading */
+      cursor: pointer;
+      background: #000066;
+      transition: opacity 0.2s ease;
     }
 
-    /* Optional: slight hover effect */
     .gallery img:hover {
       opacity: 0.9;
-      transition: opacity 0.2s ease;
+    }
+
+    /* Fullscreen view */
+    .fullscreen {
+      position: fixed;
+      inset: 0;
+      background: #00008B;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      cursor: pointer;
+    }
+
+    .fullscreen img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      width: auto;
+      height: auto;
+      aspect-ratio: auto;
     }
   </style>
 </head>
 <body>
 
-  <div class="gallery">
-    <!-- Just keep adding more images like this -->
+  <div class="gallery" id="gallery">
+    <!-- Add your images here -->
     <img src="../images/1.JPG" alt="">
     <img src="../images/2.JPG" alt="">
     <img src="../images/3.JPG" alt="">
@@ -58,8 +79,32 @@
     <img src="../images/10.JPG" alt="">
     <img src="../images/11.JPG" alt="">
     <img src="../images/12.JPG" alt="">
-    <!-- Add as many as you want... -->
+    <!-- Keep adding more images... -->
   </div>
+
+  <script>
+    const gallery = document.getElementById('gallery');
+
+    gallery.addEventListener('click', function(e) {
+      if (e.target.tagName === 'IMG') {
+        // Create fullscreen container
+        const fullscreen = document.createElement('div');
+        fullscreen.className = 'fullscreen';
+
+        // Clone the clicked image
+        const fullImg = e.target.cloneNode();
+        fullscreen.appendChild(fullImg);
+
+        // Add to page
+        document.body.appendChild(fullscreen);
+
+        // Click anywhere to close
+        fullscreen.addEventListener('click', function() {
+          fullscreen.remove();
+        });
+      }
+    });
+  </script>
 
 </body>
 </html>

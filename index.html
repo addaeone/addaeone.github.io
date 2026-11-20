@@ -82,34 +82,33 @@
     <div class="error" id="error"></div>
   </div>
 
-  <script>
-    const correctPassword = "77one";   // ← change this to your real password
+ <script>
+  const correctPassword = "77one";   // ← change this to your real password
 
-    function checkPassword() {
-      const input = document.getElementById("password").value;
-      const error = document.getElementById("error");
+  function checkPassword() {
+    const input = document.getElementById("password");
+    const error = document.getElementById("error");
+    const value = input.value;
 
-      const value = input.value;
-
-      if (value === correctPassword) {
+    if (value === correctPassword) {
       sessionStorage.setItem("authenticated", "true");
-      // redirect or show protected content here
-      // window.location.href = "secret.html";
-     } else {
-      error.textContent = "Wrong";
-      input.value = "";          // clear the field
-      input.focus();             // put cursor back
+      // window.location.href = "secret.html";   // optional redirect
+    } else {
+      error.textContent = "Wrong password";
+      input.value = "";
+      input.focus();
     }
   }
 
-  // Optional: clear the error message as soon as the user starts typing again
+  // Clear error message when the user starts typing again
   document.getElementById("password").addEventListener("input", () => {
     document.getElementById("error").textContent = "";
+  });
 
-     // Pressing Enter acts like clicking the button
+  // Pressing Enter acts like clicking the button
   document.getElementById("password").addEventListener("keydown", function(e) {
     if (e.key === "Enter") {
       checkPassword();
-      }
+    }
   });
 </script>

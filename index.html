@@ -101,7 +101,7 @@
 
       if (value === correctPassword) {
         sessionStorage.setItem("authenticated", "true");
-        window.location.href = "home.html"; // change to "home" if using clean URL
+        window.location.href = "home"; // change to "home" if using clean URL
       } else {
         error.textContent = "Wrong";
         input.value = "";

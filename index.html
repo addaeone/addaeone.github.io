@@ -81,41 +81,36 @@
   </div>
 
   <script>
-  const correctPassword = "77one";   // ← change this to your real password
-  let errorTimeout;
+    const correctPassword = "77one";   // ← change this to your real password
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    checkPassword();
-    return false;
-  }
-
-  function checkPassword() {
-    const input = document.getElementById("password");
-    const error = document.getElementById("error");
-    const value = input.value;
-
-    clearTimeout(errorTimeout);
-
-    if (value === correctPassword) {
-      sessionStorage.setItem("authenticated", "true");
-      error.textContent = "";
-      // window.location.href = "secret.html";
-    } else {
-      error.textContent = "Wrong password";
-      input.value = "";
-      input.focus();
-
-      // Auto-clear after 5 seconds
-      errorTimeout = setTimeout(() => {
-        error.textContent = "";
-      }, 5000);
+    function handleSubmit(e) {
+      e.preventDefault();               // stop the page from reloading
+      checkPassword();
+      return false;
     }
-  }
 
-  // Also clear immediately when the user starts typing
-  document.getElementById("password").addEventListener("input", () => {
-    clearTimeout(errorTimeout);
-    document.getElementById("error").textContent = "";
-  });
-</script>
+    function checkPassword() {
+      const input = document.getElementById("password");
+      const error = document.getElementById("error");
+      const value = input.value;
+
+      if (value === correctPassword) {
+        sessionStorage.setItem("authenticated", "true");
+        // Optional: go to the protected page
+        // window.location.href = "secret.html";
+        error.textContent = "";         // clear any previous error
+        alert("Correct!");              // temporary feedback – remove later
+      } else {
+        error.textContent = "Wrong password";
+        input.value = "";
+        input.focus();
+      }
+    }
+
+    // Clear the red message as soon as the user starts typing again
+    document.getElementById("password").addEventListener("input", () => {
+      document.getElementById("error").textContent = "";
+    });
+  </script>
+</body>
+</html>

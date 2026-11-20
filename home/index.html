@@ -12,21 +12,20 @@
     }
 
     html, body {
-    height: 100%;
-    height: 100dvh;          /* better on mobile */
-    overflow: hidden;
-    font-family: system-ui, -apple-system, sans-serif;
-    background: #00008B;     /* extra safety */
+      height: 100%;
+      height: 100dvh;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #00008B;
     }
 
-
     .split {
-    display: flex;
-    height: 100%;
-    height: 100dvh;
-    width: 100vw;
-    position: relative;
-    background: #00008B;     /* ensures top & bottom are blue */
+      display: flex;
+      height: 100%;
+      height: 100dvh;
+      width: 100vw;
+      position: relative;
+      background: #00008B;
     }
 
     .side {
@@ -39,17 +38,15 @@
       overflow: hidden;
     }
 
-    /* Left side */
     .left {
       background: #00008B;
     }
 
-    /* Right side */
     .right {
       background: #00008B;
     }
 
-    /* Blurred image that appears on hover */
+    /* Blurred image on hover (desktop) */
     .right::before {
       content: '';
       position: absolute;
@@ -60,13 +57,14 @@
       opacity: 0;
       transition: opacity 0.5s ease;
       z-index: 1;
+      pointer-events: none;
     }
 
     .right:hover::before {
       opacity: 1;
     }
 
-    /* Thin white center line */
+    /* Vertical white line (desktop) */
     .split::after {
       content: '';
       position: absolute;
@@ -84,7 +82,7 @@
       position: relative;
       z-index: 2;
       color: white;
-      font-size: clamp(3rem, 8vw, 6rem);
+      font-size: clamp(2.8rem, 8vw, 6rem);
       font-weight: 500;
       letter-spacing: 0.05em;
     }
@@ -106,19 +104,41 @@
     .side:hover .label .hover {
       opacity: 1;
     }
+
+    /* ========== MOBILE VERSION ========== */
+    @media (max-width: 768px) {
+      .split {
+        flex-direction: column; /* horizontal split */
+      }
+
+      /* Change white line to horizontal */
+      .split::after {
+        top: 50%;
+        bottom: auto;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 5px;
+        transform: translateY(-50%);
+      }
+
+      /* Optional: slightly smaller text on mobile */
+      .label {
+        font-size: clamp(2.4rem, 11vw, 4.5rem);
+      }
+    }
   </style>
 </head>
 <body>
 
   <script>
-    // Protect the page
     if (sessionStorage.getItem("authenticated") !== "true") {
       window.location.href = "/";
     }
   </script>
 
   <div class="split">
-    <!-- Left -->
+    <!-- Top on mobile / Left on desktop -->
     <a href="/shop" class="side left">
       <div class="label">
         <span class="main">店</span>
@@ -126,7 +146,7 @@
       </div>
     </a>
 
-    <!-- Right -->
+    <!-- Bottom on mobile / Right on desktop -->
     <a href="/galleria" class="side right">
       <div class="label">
         <span class="main">ガレリア</span>

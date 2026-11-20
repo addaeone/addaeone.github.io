@@ -12,16 +12,21 @@
     }
 
     html, body {
-      height: 100%;
-      overflow: hidden;
-      font-family: system-ui, -apple-system, sans-serif;
+    height: 100%;
+    height: 100dvh;          /* better on mobile */
+    overflow: hidden;
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #00008B;     /* extra safety */
     }
 
+
     .split {
-      display: flex;
-      height: 100vh;
-      width: 100vw;
-      position: relative;
+    display: flex;
+    height: 100%;
+    height: 100dvh;
+    width: 100vw;
+    position: relative;
+    background: #00008B;     /* ensures top & bottom are blue */
     }
 
     .side {

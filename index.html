@@ -97,6 +97,9 @@
     const error = document.getElementById("error");
     const value = input.value;
 
+    if (value === "") {
+    return;
+
     clearTimeout(errorTimeout);
 
     if (value === correctPassword) {

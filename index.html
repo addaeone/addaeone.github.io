@@ -28,8 +28,15 @@
       gap: 18px;
       padding: 36px 40px;
       border-radius: 20px;
-      /* soft glow like in your screenshot */
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ★★★ THIS IS THE KEY FIX ★★★ */
+    form {
+      display: flex;
+      flex-direction: column;   /* forces stacked layout */
+      align-items: center;
+      gap: 18px;
     }
 
     input {
@@ -61,63 +68,65 @@
       transition: background 0.25s ease;
     }
 
-    /* Hover effect you requested */
     button:hover {
-      background: #00008B;   /* same blue as the background */
+      background: #00008B;
     }
 
     .error {
       color: #ff6b6b;
       font-size: 0.95rem;
-      hheight: 20px;
-      font-size: 0.95rem;
+      height: 20px;
       margin-top: -8px;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <input type="password" id="password" placeholder="password" autofocus>
-    <button onclick="checkPassword()">Enter</button>
+    <!-- Form keeps Enter key working -->
+    <form id="passwordForm" onsubmit="return handleSubmit(event)">
+      <input type="password" id="password" placeholder="password" autofocus autocomplete="off">
+      <button type="submit">Enter</button>
+    </form>
+
     <div class="error" id="error"></div>
   </div>
 
   <script>
-  const correctPassword = "77one";   // ← change this to your real password
-  let errorTimeout;
+    const correctPassword = "77one";   // ← change this to your real password
+    let errorTimeout;
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    checkPassword();
-    return false;
-  }
-
-  function checkPassword() {
-    const input = document.getElementById("password");
-    const error = document.getElementById("error");
-    const value = input.value;
-
-    clearTimeout(errorTimeout);
-
-    if (value === correctPassword) {
-      sessionStorage.setItem("authenticated", "true");
-      error.textContent = "";
-      // window.location.href = "secret.html";
-    } else {
-      error.textContent = "Wrong password";
-      input.value = "";
-      input.focus();
-
-      // Auto-clear after 5 seconds
-      errorTimeout = setTimeout(() => {
-        error.textContent = "";
-      }, 5000);
+    function handleSubmit(e) {
+      e.preventDefault();
+      checkPassword();
+      return false;
     }
-  }
 
-  // Also clear immediately when the user starts typing
-  document.getElementById("password").addEventListener("input", () => {
-    clearTimeout(errorTimeout);
-    document.getElementById("error").textContent = "";
-  });
-</script>
+    function checkPassword() {
+      const input = document.getElementById("password");
+      const error = document.getElementById("error");
+      const value = input.value;
+
+      clearTimeout(errorTimeout);
+
+      if (value === correctPassword) {
+        sessionStorage.setItem("authenticated", "true");
+        error.textContent = "";
+        // window.location.href = "secret.html";
+      } else {
+        error.textContent = "Wrong password";
+        input.value = "";
+        input.focus();
+
+        errorTimeout = setTimeout(() => {
+          error.textContent = "";
+        }, 5000);
+      }
+    }
+
+    document.getElementById("password").addEventListener("input", () => {
+      clearTimeout(errorTimeout);
+      document.getElementById("error").textContent = "";
+    });
+  </script>
+</body>
+</html>

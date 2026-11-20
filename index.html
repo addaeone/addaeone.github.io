@@ -28,6 +28,7 @@
       gap: 18px;
       padding: 36px 40px;
       border-radius: 20px;
+      /* soft glow like in your screenshot */
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
     }
 
@@ -60,67 +61,63 @@
       transition: background 0.25s ease;
     }
 
+    /* Hover effect you requested */
     button:hover {
-      background: #00008B;
+      background: #00008B;   /* same blue as the background */
     }
 
     .error {
       color: #ff6b6b;
       font-size: 0.95rem;
-      height: 20px;              /* ← fixed typo (was hheight) */
+      hheight: 20px;
+      font-size: 0.95rem;
       margin-top: -8px;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <!-- ★★★ FIX: Wrapped in a form so Enter/Return works on Mac & iPhone ★★★ -->
-    <form id="passwordForm" onsubmit="return handleSubmit(event)">
-      <input type="password" id="password" placeholder="password" autofocus autocomplete="off">
-      <button type="submit">Enter</button>
-    </form>
-
+    <input type="password" id="password" placeholder="password" autofocus>
+    <button onclick="checkPassword()">Enter</button>
     <div class="error" id="error"></div>
   </div>
 
   <script>
-    const correctPassword = "77one";   // ← change this to your real password
-    let errorTimeout;
+  const correctPassword = "77one";   // ← change this to your real password
+  let errorTimeout;
 
-    function handleSubmit(e) {
-      e.preventDefault();          // stops the page from reloading
-      checkPassword();
-      return false;
-    }
+  function handleSubmit(e) {
+    e.preventDefault();
+    checkPassword();
+    return false;
+  }
 
-    function checkPassword() {
-      const input = document.getElementById("password");
-      const error = document.getElementById("error");
-      const value = input.value;
+  function checkPassword() {
+    const input = document.getElementById("password");
+    const error = document.getElementById("error");
+    const value = input.value;
 
-      clearTimeout(errorTimeout);
+    clearTimeout(errorTimeout);
 
-      if (value === correctPassword) {
-        sessionStorage.setItem("authenticated", "true");
+    if (value === correctPassword) {
+      sessionStorage.setItem("authenticated", "true");
+      error.textContent = "";
+      // window.location.href = "secret.html";
+    } else {
+      error.textContent = "Wrong password";
+      input.value = "";
+      input.focus();
+
+      // Auto-clear after 5 seconds
+      errorTimeout = setTimeout(() => {
         error.textContent = "";
-        // window.location.href = "secret.html";   // optional redirect
-      } else {
-        error.textContent = "Wrong";
-        input.value = "";
-        input.focus();
-
-        // Auto-clear the message after 5 seconds
-        errorTimeout = setTimeout(() => {
-          error.textContent = "";
-        }, 5000);
-      }
+      }, 5000);
     }
+  }
 
-    // Clear the error as soon as the user starts typing again
-    document.getElementById("password").addEventListener("input", () => {
-      clearTimeout(errorTimeout);
-      document.getElementById("error").textContent = "";
-    });
-  </script>
-</body>
-</html>
+  // Also clear immediately when the user starts typing
+  document.getElementById("password").addEventListener("input", () => {
+    clearTimeout(errorTimeout);
+    document.getElementById("error").textContent = "";
+  });
+</script>

@@ -1,4 +1,4 @@
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -69,16 +69,17 @@
     .error {
       color: #ff6b6b;
       font-size: 0.95rem;
-      font-size: 0.95rem;
       margin-top: -8px;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <input type="password" id="password" placeholder="password" autofocus>
-    <button onclick="checkPassword()">Enter</button>
-    <div class="error" id="error"></div>
+    <form onsubmit="handleSubmit(event)">
+      <input type="password" id="password" placeholder="password" autofocus>
+      <button type="submit">Enter</button>
+      <div class="error" id="error"></div>
+    </form>
   </div>
 
   <script>
@@ -107,7 +108,7 @@
       input.value = "";
       input.focus();
 
-      // Auto-clear after 5 seconds
+      // Auto-clear after 3 seconds
       errorTimeout = setTimeout(() => {
         error.textContent = "";
       }, 3000);
@@ -119,4 +120,6 @@
     clearTimeout(errorTimeout);
     document.getElementById("error").textContent = "";
   });
-</script>
+  </script>
+</body>
+</html>

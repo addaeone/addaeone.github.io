@@ -5,81 +5,87 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enter Password</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #00008B;
-      font-family: system-ui, sans-serif;
-      color: white;
+      font-family: system-ui, -apple-system, sans-serif;
     }
+
     .box {
-      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 40px;
+      border-radius: 20px;
+      /* soft glow like in your screenshot */
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
     }
+
     input {
-      padding: 12px 20px;
+      width: 280px;
+      padding: 16px 24px;
       font-size: 1.1rem;
       border: none;
-      border-radius: 6px;
-      margin-top: 20px;
-      width: 220px;
-      text-align: center;
-    }
-    button {
-      margin-top: 15px;
-      padding: 12px 30px;
-      font-size: 1rem;
+      border-radius: 14px;
       background: white;
-      color: #00008B;
+      color: #333;
+      text-align: center;
+      outline: none;
+    }
+
+    input::placeholder {
+      color: #999;
+    }
+
+    button {
+      width: 280px;
+      padding: 16px;
+      font-size: 1.15rem;
+      font-weight: 500;
       border: none;
-      border-radius: 6px;
+      border-radius: 14px;
+      background: black;
+      color: white;
       cursor: pointer;
-      font-weight: 600;
+      transition: background 0.25s ease;
     }
+
+    /* Hover effect you requested */
     button:hover {
-      background: #eee;
+      background: #00008B;   /* same blue as the background */
     }
+
     .error {
       color: #ff6b6b;
-      margin-top: 12px;
       height: 20px;
+      font-size: 0.95rem;
+      margin-top: -8px;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <h1>Enter Password</h1>
-    <input type="password" id="password" placeholder="Password" autofocus>
-    <br>
+    <input type="password" id="password" placeholder="password" autofocus>
     <button onclick="checkPassword()">Enter</button>
     <div class="error" id="error"></div>
   </div>
 
   <script>
-    const correctPassword = "yourpassword";   // ← change this
+    const correctPassword = "77one";   // ← change this to your real password
 
     function checkPassword() {
       const input = document.getElementById("password").value;
       const error = document.getElementById("error");
 
       if (input === correctPassword) {
-        // Save that the user is authenticated
-        sessionStorage.setItem("authenticated", "true");
-        window.location.href = "home.html";
-      } else {
-        error.textContent = "Wrong password";
-        document.getElementById("password").value = "";
-      }
-    }
-
-    // Allow pressing Enter key
-    document.getElementById("password").addEventListener("keyup", function(event) {
-      if (event.key === "Enter") {
-        checkPassword();
-      }
-    });
-  </script>
-</body>
-</html>
+        sessionStorage.setItem("authenticated", "true

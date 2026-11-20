@@ -76,8 +76,11 @@
 </head>
 <body>
   <div class="box">
+     <form id="passwordForm" onsubmit="return handleSubmit(event)">
     <input type="password" id="password" placeholder="password" autofocus>
     <button onclick="checkPassword()">Enter</button>
+    <form>
+       
     <div class="error" id="error"></div>
   </div>
 

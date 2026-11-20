@@ -89,5 +89,21 @@
       const input = document.getElementById("password").value;
       const error = document.getElementById("error");
 
-      if (input === correctPassword) {
-        sessionStorage.setItem("authenticated", "true
+      const value = input.value;
+
+      if (value === correctPassword) {
+      sessionStorage.setItem("authenticated", "true");
+      // redirect or show protected content here
+      // window.location.href = "secret.html";
+     } else {
+      error.textContent = "Wrong";
+      input.value = "";          // clear the field
+      input.focus();             // put cursor back
+    }
+  }
+
+  // Optional: clear the error message as soon as the user starts typing again
+  document.getElementById("password").addEventListener("input", () => {
+    document.getElementById("error").textContent = "";
+  });
+</script>

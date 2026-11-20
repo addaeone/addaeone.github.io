@@ -13,7 +13,6 @@
 
     body {
       height: 100vh;
-      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -28,20 +27,23 @@
       gap: 18px;
       padding: 36px 40px;
       border-radius: 20px;
-      /* soft glow like in your screenshot */
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
     }
 
-    input {
+    input, button {
       width: 280px;
-      padding: 16px 24px;
+      padding: 16px;
       font-size: 1.1rem;
       border: none;
       border-radius: 14px;
+      outline: none;
+    }
+
+    input {
       background: white;
       color: #333;
       text-align: center;
-      outline: none;
+      padding: 16px 24px;
     }
 
     input::placeholder {
@@ -49,34 +51,31 @@
     }
 
     button {
-      width: 280px;
-      padding: 16px;
       font-size: 1.15rem;
       font-weight: 500;
-      border: none;
-      border-radius: 14px;
       background: black;
       color: white;
       cursor: pointer;
       transition: background 0.25s ease;
     }
 
-    /* Hover effect you requested */
     @media (hover: hover) {
-    button:hover {
-      background: #00008B;   /* same blue as the background */
+      button:hover {
+        background: #00008B;
+      }
     }
-  }
+
     .error {
-      color: #ff6b6b;
+      color: #ff3b3b;
       font-size: 0.95rem;
-      font-weight: 700; 
+      font-weight: 700;
       margin-top: -8px;
+      min-height: 1.2em; /* prevents layout jump */
     }
   </style>
 </head>
 <body>
-  <!-- Using the form itself as the .box so layout stays identical -->
+
   <form class="box" onsubmit="handleSubmit(event)">
     <input type="password" id="password" placeholder="password" autofocus>
     <button type="submit">Enter</button>
@@ -84,47 +83,42 @@
   </form>
 
   <script>
-  const correctPassword = "77one";   // ← change this to your real password
-  let errorTimeout;
+    const correctPassword = "77one";
+    let errorTimeout;
 
-  function handleSubmit(e) {
-    e.preventDefault();
-    checkPassword();
-    return false;
-  }
-
-  function checkPassword() {
-    const input = document.getElementById("password");
-    const error = document.getElementById("error");
-    const value = input.value;
-
-    if (value === "") {
-    return;
+    function handleSubmit(e) {
+      e.preventDefault();
+      checkPassword();
     }
 
-    clearTimeout(errorTimeout);
+    function checkPassword() {
+      const input = document.getElementById("password");
+      const error = document.getElementById("error");
+      const value = input.value.trim();
 
-    if (value === correctPassword) {
-      sessionStorage.setItem("authenticated", "true");
-      error.textContent = "";
-      window.location.href = "home.html";
-    } else {
-      error.textContent = "Wrong";
-      input.value = "";
-      input.focus();
+      if (!value) return; // empty → do nothing
 
-      // Auto-clear after 3 seconds
-      errorTimeout = setTimeout(() => {
-        error.textContent = "";
-      }, 3000);
+      clearTimeout(errorTimeout);
+
+      if (value === correctPassword) {
+        sessionStorage.setItem("authenticated", "true");
+        window.location.href = "home.html"; // change to "home" if using clean URL
+      } else {
+        error.textContent = "Wrong";
+        input.value = "";
+        input.focus();
+
+        errorTimeout = setTimeout(() => {
+          error.textContent = "";
+        }, 3000);
+      }
     }
-  }
 
-  // Also clear immediately when the user starts typing
-  document.getElementById("password").addEventListener("input", () => {
-    clearTimeout(errorTimeout);
-    document.getElementById("error").textContent = "";
-  });
+    // Clear error as soon as user starts typing
+    document.getElementById("password").addEventListener("input", () => {
+      clearTimeout(errorTimeout);
+      document.getElementById("error").textContent = "";
+    });
   </script>
 </body>
 </html>

@@ -74,13 +74,12 @@
   </style>
 </head>
 <body>
-  <div class="box">
-    <form onsubmit="handleSubmit(event)">
-      <input type="password" id="password" placeholder="password" autofocus>
-      <button type="submit">Enter</button>
-      <div class="error" id="error"></div>
-    </form>
-  </div>
+  <!-- Using the form itself as the .box so layout stays identical -->
+  <form class="box" onsubmit="handleSubmit(event)">
+    <input type="password" id="password" placeholder="password" autofocus>
+    <button type="submit">Enter</button>
+    <div class="error" id="error"></div>
+  </form>
 
   <script>
   const correctPassword = "77one";   // ← change this to your real password

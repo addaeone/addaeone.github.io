@@ -105,5 +105,10 @@
   // Optional: clear the error message as soon as the user starts typing again
   document.getElementById("password").addEventListener("input", () => {
     document.getElementById("error").textContent = "";
+
+     // Pressing Enter acts like clicking the button
+  document.getElementById("password").addEventListener("keydown", function(e) {
+    if (e.key === "Enter") {
+      checkPassword();
   });
 </script>

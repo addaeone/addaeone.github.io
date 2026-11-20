@@ -4,135 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enter Password</title>
- <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-  body {
-    height: 100vh;
-    margin: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #00008B;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #00008B;
+      font-family: system-ui, -apple-system, sans-serif;
+    }
 
-  .box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 18px;
-    padding: 36px 40px;
-    border-radius: 20px;
-    box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
-  }
+    .box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 18px;
+      padding: 36px 40px;
+      border-radius: 20px;
+      /* soft glow like in your screenshot */
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+    }
 
-  /* ★★★ Equal spacing fix ★★★ */
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;          /* perfect even gap between field and button */
-    margin: 0;
-    padding: 0;
-  }
+    input {
+      width: 280px;
+      padding: 16px 24px;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 14px;
+      background: white;
+      color: #333;
+      text-align: center;
+      outline: none;
+    }
 
-  input, button {
-    margin: 0;          /* kills browser default margins */
-  }
+    input::placeholder {
+      color: #999;
+    }
 
-  input {
-    width: 280px;
-    padding: 16px 24px;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 14px;
-    background: white;
-    color: #333;
-    text-align: center;
-    outline: none;
-  }
+    button {
+      width: 280px;
+      padding: 16px;
+      font-size: 1.15rem;
+      font-weight: 500;
+      border: none;
+      border-radius: 14px;
+      background: black;
+      color: white;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
 
-  input::placeholder {
-    color: #999;
-  }
+    /* Hover effect you requested */
+    button:hover {
+      background: #00008B;   /* same blue as the background */
+    }
 
-  button {
-    width: 280px;
-    padding: 16px;
-    font-size: 1.15rem;
-    font-weight: 500;
-    border: none;
-    border-radius: 14px;
-    background: black;
-    color: white;
-    cursor: pointer;
-    transition: background 0.25s ease;
-  }
-
-  button:hover {
-    background: #00008B;
-  }
-
-  .error {
-    color: #ff6b6b;
-    font-size: 0.95rem;
-    height: 20px;
-    margin-top: -8px;
-  }
-</style>
+    .error {
+      color: #ff6b6b;
+      font-size: 0.95rem;
+      hheight: 20px;
+      font-size: 0.95rem;
+      margin-top: -8px;
+    }
+  </style>
 </head>
 <body>
   <div class="box">
-    <!-- Form keeps Enter key working -->
-    <form id="passwordForm" onsubmit="return handleSubmit(event)">
-      <input type="password" id="password" placeholder="password" autofocus autocomplete="off">
-      <button type="submit">Enter</button>
-    </form>
-
+    <input type="password" id="password" placeholder="password" autofocus>
+    <button onclick="checkPassword()">Enter</button>
     <div class="error" id="error"></div>
   </div>
 
   <script>
-    const correctPassword = "77one";   // ← change this to your real password
-    let errorTimeout;
+  const correctPassword = "77one";   // ← change this to your real password
+  let errorTimeout;
 
-    function handleSubmit(e) {
-      e.preventDefault();
-      checkPassword();
-      return false;
-    }
+  function handleSubmit(e) {
+    e.preventDefault();
+    checkPassword();
+    return false;
+  }
 
-    function checkPassword() {
-      const input = document.getElementById("password");
-      const error = document.getElementById("error");
-      const value = input.value;
+  function checkPassword() {
+    const input = document.getElementById("password");
+    const error = document.getElementById("error");
+    const value = input.value;
 
-      clearTimeout(errorTimeout);
+    clearTimeout(errorTimeout);
 
-      if (value === correctPassword) {
-        sessionStorage.setItem("authenticated", "true");
+    if (value === correctPassword) {
+      sessionStorage.setItem("authenticated", "true");
+      error.textContent = "";
+      // window.location.href = "secret.html";
+    } else {
+      error.textContent = "Wrong password";
+      input.value = "";
+      input.focus();
+
+      // Auto-clear after 5 seconds
+      errorTimeout = setTimeout(() => {
         error.textContent = "";
-        // window.location.href = "secret.html";
-      } else {
-        error.textContent = "Wrong";
-        input.value = "";
-        input.focus();
-
-        errorTimeout = setTimeout(() => {
-          error.textContent = "";
-        }, 5000);
-      }
+      }, 5000);
     }
+  }
 
-    document.getElementById("password").addEventListener("input", () => {
-      clearTimeout(errorTimeout);
-      document.getElementById("error").textContent = "";
-    });
-  </script>
-</body>
-</html>
+  // Also clear immediately when the user starts typing
+  document.getElementById("password").addEventListener("input", () => {
+    clearTimeout(errorTimeout);
+    document.getElementById("error").textContent = "";
+  });
+</script>

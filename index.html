@@ -13,7 +13,6 @@
 
     body {
       height: 100vh;
-      margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -28,7 +27,6 @@
       gap: 18px;
       padding: 36px 40px;
       border-radius: 20px;
-      /* soft glow like in your screenshot */
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
     }
 
@@ -61,54 +59,58 @@
       transition: background 0.25s ease;
     }
 
-    /* Hover effect you requested */
     button:hover {
-      background: #00008B;   /* same blue as the background */
+      background: #00008B;
     }
 
     .error {
       color: #ff6b6b;
       font-size: 0.95rem;
-      hheight: 20px;
-      font-size: 0.95rem;
+      height: 20px;          /* fixed the old "hheight" typo */
       margin-top: -8px;
     }
   </style>
 </head>
 <body>
   <div class="box">
-    <input type="password" id="password" placeholder="password" autofocus>
-    <button onclick="checkPassword()">Enter</button>
+    <form id="passwordForm" onsubmit="return handleSubmit(event)">
+      <input type="password" id="password" placeholder="password" autofocus autocomplete="off">
+      <button type="submit">Enter</button>
+    </form>
     <div class="error" id="error"></div>
   </div>
 
- <script>
-  const correctPassword = "77one";   // ← change this to your real password
+  <script>
+    const correctPassword = "77one";   // ← change this to your real password
 
-  function checkPassword() {
-    const input = document.getElementById("password");
-    const error = document.getElementById("error");
-    const value = input.value;
-
-    if (value === correctPassword) {
-      sessionStorage.setItem("authenticated", "true");
-      // window.location.href = "secret.html";   // optional redirect
-    } else {
-      error.textContent = "Wrong password";
-      input.value = "";
-      input.focus();
-    }
-  }
-
-  // Clear error message when the user starts typing again
-  document.getElementById("password").addEventListener("input", () => {
-    document.getElementById("error").textContent = "";
-  });
-
-  // Pressing Enter acts like clicking the button
-  document.getElementById("password").addEventListener("keydown", function(e) {
-    if (e.key === "Enter") {
+    function handleSubmit(e) {
+      e.preventDefault();               // stop the page from reloading
       checkPassword();
+      return false;
     }
-  });
-</script>
+
+    function checkPassword() {
+      const input = document.getElementById("password");
+      const error = document.getElementById("error");
+      const value = input.value;
+
+      if (value === correctPassword) {
+        sessionStorage.setItem("authenticated", "true");
+        // Optional: go to the protected page
+        // window.location.href = "secret.html";
+        error.textContent = "";         // clear any previous error
+        alert("Correct!");              // temporary feedback – remove later
+      } else {
+        error.textContent = "Wrong password";
+        input.value = "";
+        input.focus();
+      }
+    }
+
+    // Clear the red message as soon as the user starts typing again
+    document.getElementById("password").addEventListener("input", () => {
+      document.getElementById("error").textContent = "";
+    });
+  </script>
+</body>
+</html>

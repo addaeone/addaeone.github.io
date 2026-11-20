@@ -21,5 +21,10 @@
 </head>
 <body>
   <!-- Gallery content will go here later -->
+  <script>
+    if (sessionStorage.getItem("authenticated") !== "true") {
+      window.location.href = "/";
+    }
+  </script>
 </body>
 </html>

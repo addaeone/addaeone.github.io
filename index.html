@@ -26,10 +26,10 @@
       flex-direction: column;
       align-items: center;
       gap: 18px;
-      padding: 40px;
+      padding: 36px 40px;
       border-radius: 20px;
       /* soft glow like in your screenshot */
-      box-shadow: 0 0 60px rgba(0, 0, 0, 0.3);
+      box-shadow: rgba(0, 0, 80, 0.4);
     }
 
     input {
@@ -69,8 +69,9 @@
     .error {
       color: #ff6b6b;
       font-size: 0.95rem;
-      min-height: 20px; 
-      mtext-align: center;
+      height: 0;
+      overfliw: hidden; 
+      transition: height 0.2s;
     }
   </style>
 </head>
